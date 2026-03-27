@@ -139,16 +139,16 @@ class ImprovedBoundaryLoss(nn.Module):
 
     def forward(self, pred, target, boundary_pred=None):
 
-        # 1. Dice Loss (区域重叠)
+        # 1. Dice Loss
         dice_l = self.dice_loss(pred, target)
 
-        # 2. Focal Loss (难样本挖掘)
+        # 2. Focal Loss
         focal_l = self.focal_loss(pred, target)
 
-        # 3. Boundary Loss (边界精确)
+        # 3. Boundary Loss
         boundary_l = self.boundary_loss(pred, target)
 
-        # 4. Soft Hausdorff Loss (直接优化 HD)
+        # 4. Soft Hausdorff Loss
         hd_l = 0.0
         if self.use_hausdorff:
             hd_l = self.hausdorff_loss(pred, target)

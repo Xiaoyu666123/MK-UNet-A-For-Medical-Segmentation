@@ -79,29 +79,29 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
         val_loss /= len(val_loader)
         val_dice /= len(val_loader)
 
-        swanlab.log({
-            'train/loss': train_loss,
-            'train/dice': train_dice,
-            'train/epoch': epoch + 1,
-            'train/lr': optimizer.param_groups[0]['lr'],
-            'val/loss': val_loss,
-            'val/dice': val_dice,
-        }, step=epoch + 1)
+        # swanlab.log({
+        #     'train/loss': train_loss,
+        #     'train/dice': train_dice,
+        #     'train/epoch': epoch + 1,
+        #     'train/lr': optimizer.param_groups[0]['lr'],
+        #     'val/loss': val_loss,
+        #     'val/dice': val_dice,
+        # }, step=epoch + 1)
 
         print(f'Epoch {epoch + 1} / {num_epochs}:')
         print(f'Train Loss: {train_loss:.4f}, Train Dice: {train_dice:.4f}, Val Loss: {val_loss:.4f}, Val Dice: {val_dice:.4f}')
 
 def main():
-    swanlab.init(
-        project="paper",
-        experiment_name="MK-Unet-T-epochs200",
-        config={
-            "batch_size": 16,
-            "learning_rate": 1e-4,
-            "num_epochs": 100,
-            "device": "cuda:0" if torch.cuda.is_available() else "cpu",
-        },
-    )
+    # swanlab.init(
+    #     project="paper",
+    #     experiment_name="MK-Unet-T-epochs200",
+    #     config={
+    #         "batch_size": 16,
+    #         "learning_rate": 1e-4,
+    #         "num_epochs": 100,
+    #         "device": "cuda:0" if torch.cuda.is_available() else "cpu",
+    #     },
+    # )
 
     batch_size = swanlab.config['batch_size']
     device = torch.device(swanlab.config['device'])
@@ -183,7 +183,7 @@ def main():
     avg_hd95 = test_hd95 / valid_samples if valid_samples > 0 else 1
 
     print(f'Test Results -> Loss: {test_loss:.4f}, Dice: {test_dice:.4f}, HD95: {avg_hd95:.4f}')
-    swanlab.log({"test/loss": test_loss, "test/dice": test_dice, "test/hd95": avg_hd95})
+    # swanlab.log({"test/loss": test_loss, "test/dice": test_dice, "test/hd95": avg_hd95})
     # 可视化预测结果
     visualize_predictions(model, test_loader, device, num_samples=10)
 
@@ -244,7 +244,7 @@ def visualize_predictions(model, test_loader, device, num_samples, therehold = 0
         plt.tight_layout()
 
         # 记录图像到SwanLab
-        swanlab.log({'predictions' : swanlab.Image(plt)})
+        # swanlab.log({'predictions' : swanlab.Image(plt)})
 
 if __name__ == '__main__':
     seed_everything(42)

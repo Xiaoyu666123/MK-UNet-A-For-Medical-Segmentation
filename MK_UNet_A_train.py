@@ -110,14 +110,14 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
                 'val_dice': val_dice,
             }, 'best_model.pth')
 
-        swanlab.log({
-            'train/loss': train_loss,
-            'train/dice': train_dice,
-            'train/epoch': epoch + 1,
-            'train/lr': optimizer.param_groups[0]['lr'],
-            'val/loss': val_loss,
-            'val/dice': val_dice,
-        }, step=epoch + 1)
+        # swanlab.log({
+        #     'train/loss': train_loss,
+        #     'train/dice': train_dice,
+        #     'train/epoch': epoch + 1,
+        #     'train/lr': optimizer.param_groups[0]['lr'],
+        #     'val/loss': val_loss,
+        #     'val/dice': val_dice,
+        # }, step=epoch + 1)
 
         print(f'Epoch {epoch + 1} / {num_epochs}:')
         print(
@@ -143,16 +143,16 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
 
 
 def main():
-    swanlab.init(
-        project="paper",
-        experiment_name="AB-MK-Unet-T-epochs100",
-        config={
-            "batch_size": 16,
-            "learning_rate": 1e-4,
-            "num_epochs": 100,
-            "device": "cuda:3" if torch.cuda.is_available() else "cpu",
-        },
-    )
+    # swanlab.init(
+    #     project="paper",
+    #     experiment_name="AB-MK-Unet-T-epochs100",
+    #     config={
+    #         "batch_size": 16,
+    #         "learning_rate": 1e-4,
+    #         "num_epochs": 100,
+    #         "device": "cuda:3" if torch.cuda.is_available() else "cpu", # 选择要运行的显卡
+    #     },
+    # )
 
     batch_size = swanlab.config['batch_size']
     device = torch.device(swanlab.config['device'])
@@ -205,7 +205,7 @@ def main():
     # 在测试集上评估 - 使用 TTA (测试时增强)
     model.eval()
 
-    # 使用固定最优阈值 0.6
+    # 使用固定最优阈值 0.6，这个最优阈值是验证出来的，从0.3-0.6实验过的最佳阈值
     best_threshold = 0.6
 
     # 使用最优阈值测试
@@ -266,11 +266,11 @@ def main():
 
     print(f'Test Results -> Loss: {test_loss:.4f}, Dice: {test_dice:.4f}, HD95: {avg_hd95:.4f}')
 
-    swanlab.log({
-        "test/loss": test_loss,
-        "test/dice": test_dice,
-        "test/hd95": avg_hd95
-    })
+    # swanlab.log({
+    #     "test/loss": test_loss,
+    #     "test/dice": test_dice,
+    #     "test/hd95": avg_hd95
+    # })
 
     # 可视化预测结果 (对比基础和精细化)
     visualize_predictions_comparison(model, test_loader, device, refiner, num_samples=10)
@@ -340,8 +340,8 @@ def visualize_predictions_comparison(model, test_loader, device, refiner, num_sa
                 break
 
         plt.tight_layout()
-        swanlab.log({'predictions_comparison': swanlab.Image(plt)})
+        # swanlab.log({'predictions_comparison': swanlab.Image(plt)})
 
 if __name__ == '__main__':
-    seed_everything(42)
+    seed_everything(42) # 设定随机种子
     main()
