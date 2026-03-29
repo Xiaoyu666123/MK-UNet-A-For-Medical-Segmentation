@@ -50,6 +50,7 @@ class BrainTumorAugmentation:
     @staticmethod
     def random_rotation(image, mask, angles=[0, 90, 180, 270]):
         angle = random.choice(angles)
+        
         if angle == 0:
             return image, mask
 
