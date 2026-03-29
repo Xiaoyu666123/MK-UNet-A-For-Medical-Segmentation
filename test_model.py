@@ -10,7 +10,6 @@ import torchvision.transforms.functional as TF
 from Loss import compute_hd95
 from MK_UNet_A import AB_MKUnet
 
-
 class COCOTestDataset(Dataset):
     """Deterministic COCO test dataset without random augmentations."""
 
@@ -53,7 +52,6 @@ class COCOTestDataset(Dataset):
 
         return image, mask, img_info["file_name"]
 
-
 def extract_pred(outputs: torch.Tensor) -> torch.Tensor:
     if isinstance(outputs, (tuple, list)):
         pred = outputs[0]
@@ -63,7 +61,6 @@ def extract_pred(outputs: torch.Tensor) -> torch.Tensor:
     if pred.min() < 0.0 or pred.max() > 1.0:
         pred = torch.sigmoid(pred)
     return pred
-
 
 def dice_coeff_from_probs(probs: torch.Tensor, target: torch.Tensor, threshold: float, eps: float = 1e-6) -> float:
     probs_bin = (probs > threshold).float()
@@ -92,7 +89,6 @@ def load_checkpoint(model: torch.nn.Module, checkpoint_path: str, device: torch.
     except RuntimeError:
         model.load_state_dict(state_dict, strict=False)
         print("[Warning] Loaded checkpoint with strict=False. Please verify model config matches training.")
-
 
 def evaluate(args: argparse.Namespace) -> Dict[str, float]:
     device = torch.device(args.device if torch.cuda.is_available() or args.device == "cpu" else "cpu")
@@ -154,7 +150,6 @@ def evaluate(args: argparse.Namespace) -> Dict[str, float]:
         "num_valid_hd95": float(valid_hd95),
     }
 
-
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Test MKUNet-A with a .pth checkpoint on COCO test set.")
     parser.add_argument("--checkpoint", type=str, default="best_model.pth", help="Path to model checkpoint (.pth)")
@@ -173,7 +168,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--save-dir", type=str, default="", help="Optional directory to save predicted masks")
     return parser.parse_args()
 
-
 def main() -> None:
     args = parse_args()
     metrics = evaluate(args)
@@ -186,7 +180,6 @@ def main() -> None:
     if args.save_dir:
         print(f"Saved prediction masks to: {args.save_dir}")
     print("=" * 60)
-
 
 if __name__ == "__main__":
     main()
