@@ -59,11 +59,9 @@ class RefinedPredictor:
         return threshold / 255.0
     
     def _morphology_refine(self, binary_mask):
-        # 1. 闭运算 - 填充小孔
         kernel_close = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
         binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_CLOSE, kernel_close)
-        
-        # 2. 开运算 - 去除小噪点
+
         kernel_open = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
         binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_OPEN, kernel_open)
         
@@ -76,7 +74,6 @@ class RefinedPredictor:
         return cleaned.astype(np.uint8)
     
     def _smooth_boundary(self, binary_mask):
-        # 如果 smooth_kernel <= 0，跳过平滑
         if self.smooth_kernel <= 0:
             return binary_mask
 
@@ -111,17 +108,14 @@ class RefinedPredictor:
         # 创建 CRF
         d = dcrf.DenseCRF2D(W, H, 2)
         d.setUnaryEnergy(unary.astype(np.float32))
-        
-        # 添加 pairwise potential
-        # 1. 外观一致性 (appearance kernel)
+
         if image is not None:
             image_uint8 = (image * 255).astype(np.uint8)
             d.addPairwiseGaussian(sxy=3, compat=3)
             d.addPairwiseBilateral(sxy=80, srgb=13, rgbim=image_uint8, compat=10)
         else:
             d.addPairwiseGaussian(sxy=3, compat=3)
-        
-        # 推理
+
         Q = d.inference(5)
         map_result = np.argmax(Q, axis=0).reshape((H, W))
         
