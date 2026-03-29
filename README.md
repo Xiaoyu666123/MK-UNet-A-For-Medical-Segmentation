@@ -11,6 +11,8 @@ A deep learning project for brain tumor segmentation using an enhanced UNet arch
 - **Improved Loss Function**: Combined Dice Loss, Focal Loss, and Boundary Loss with size-adaptive weighting
 
 ## Model Architecture
+[Figure1 MK-UNet-A.tif](https://github.com/user-attachments/files/26330681/Figure1.MK-UNet-A.tif)
+
 
 ### MK-Unet-A (Main Model)
 The enhanced model includes:
@@ -19,7 +21,6 @@ The enhanced model includes:
 - Boundary prediction head for improved edge detection
 - Bilinear upsampling with learnable convolutions
 
-![MK-UNet-A](MK-UNet-A.png)
 
 ## Project Structure
 
@@ -35,6 +36,7 @@ paper/
 ├── LoadData.py               # Data loading utilities
 ├── refined_prediction.py     # prediction refinement
 ├── requirements.txt          # Dependencies
+├── test_model.py          # Test model
 └── dataset/
     ├── train/
     ├── valid/
