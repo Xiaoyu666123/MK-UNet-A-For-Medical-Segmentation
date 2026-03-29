@@ -139,35 +139,34 @@ class ImprovedBoundaryLoss(nn.Module):
 
     def forward(self, pred, target, boundary_pred=None):
 
-        # 1. Dice Loss
+        # Dice Loss
         dice_l = self.dice_loss(pred, target)
 
-        # 2. Focal Loss
+        # Focal Loss
         focal_l = self.focal_loss(pred, target)
 
-        # 3. Boundary Loss
+        # Boundary Loss
         boundary_l = self.boundary_loss(pred, target)
 
-        # 4. Soft Hausdorff Loss
+        # Soft Hausdorff Loss
         hd_l = 0.0
         if self.use_hausdorff:
             hd_l = self.hausdorff_loss(pred, target)
 
-        # 5. 边界预测损失
+        # 边界预测损失
         boundary_pred_l = 0.0
         if boundary_pred is not None:
             boundary_pred_l = self.boundary_pred_loss(boundary_pred, target)
 
-        # 6. 自适应权重
+        # 自适应权重
         size_weight = self.size_adaptive_weight(target)
 
-        # 7. 组合损失
+        # 组合损失
         base_loss = (
             (1 - self.alpha) * (dice_l + 0.5 * focal_l) +  # 区域损失
             self.alpha * boundary_l                         # 边界损失
         )
 
-        # 加入 Hausdorff Loss 和边界预测损失
         total_loss = (base_loss + self.hd_weight * hd_l + self.boundary_weight * boundary_pred_l) * size_weight
 
         return total_loss, dice_l.item(), boundary_l.item()
