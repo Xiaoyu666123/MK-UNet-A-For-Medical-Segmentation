@@ -124,7 +124,7 @@ If you use this code, please cite:
 
 ```bibtex
 @misc{mk-unet,
-  author = {Your Name},
+  author = {Jiajia Yu},
   title = {MK-UNet: Multi-Kernel UNet for Brain Tumor Segmentation},
   year = {2026}
 }
