@@ -49,9 +49,6 @@ class BrainTumorAugmentation:
 
     @staticmethod
     def random_rotation(image, mask, angles=[0, 90, 180, 270]):
-        """
-        随机旋转 - 学习不同方向的边界
-        """
         angle = random.choice(angles)
         if angle == 0:
             return image, mask
@@ -63,9 +60,6 @@ class BrainTumorAugmentation:
 
     @staticmethod
     def random_scale(image, mask, scale_range=(0.8, 1.2)):
-        """
-        随机缩放 - 学习不同大小的肿瘤边界
-        """
         scale = random.uniform(*scale_range)
         h, w = image.shape[:2]
         new_h, new_w = int(h * scale), int(w * scale)
@@ -94,9 +88,6 @@ class BrainTumorAugmentation:
 
     @staticmethod
     def brightness_contrast(image, brightness_range=0.1, contrast_range=0.1):
-        """
-        亮度和对比度调整 - 增加鲁棒性
-        """
         if random.random() > 0.5:
             brightness = 1 + random.uniform(-brightness_range, brightness_range)
             contrast = 1 + random.uniform(-contrast_range, contrast_range)
@@ -206,7 +197,6 @@ class COCOSegmentationDataset(Dataset):
             image_np = np.fliplr(image_np).copy()
             mask_np = np.fliplr(mask_np).copy()
 
-        # 转回 tensor
         image = TF.to_tensor(image_np)
         image = TF.normalize(image, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 
