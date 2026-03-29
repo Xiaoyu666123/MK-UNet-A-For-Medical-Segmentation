@@ -353,7 +353,7 @@ class AB_MKUnet(nn.Module):
         self.CA5 = ChannelAttention(channels[0], ratio=4)
         self.SA = SpatialAttention()
 
-        # 上采样卷积层 (插值 + 可学习卷积，增强边界)
+        # 上采样卷积层
         self.up1 = UpsampleConv(channels[3], channels[3])
         self.up2 = UpsampleConv(channels[2], channels[2])
         self.up3 = UpsampleConv(channels[1], channels[1])
