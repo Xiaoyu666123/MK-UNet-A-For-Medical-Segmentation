@@ -225,7 +225,6 @@ def mk_irb_bottleneck(in_channel, out_channel, n=1, s=1, expansion_factor=2, dw_
         blocks.append(MultiKernelInvertedResidualBlock(out_channel, out_channel, 1, expansion_factor, dw_parallel, add, kernel_sizes, activation))
     return nn.Sequential(*blocks)
 
-# ---------- MK-UNet baseline ----------
 class MK_UNet_Baseline(nn.Module):
     def __init__(self, num_classes=1, in_channels=3, channels=(16,32,64,96,160), depths=(1,1,1,1,1),
                  kernel_sizes=(1,3,5), expansion_factor=2, gag_kernel=3):
@@ -271,7 +270,7 @@ class MK_UNet_Baseline(nn.Module):
         if x.dim() == 3:
             x = x.unsqueeze(0)
         if x.shape[1] == 1:
-            x = x.repeat(1, 3, 1, 1)  # map gray->3ch for blocks that expect >1 channels; MK blocks handle arbitrary channels but keep this for compatibility
+            x = x.repeat(1, 3, 1, 1)
 
         H, W = x.shape[2], x.shape[3]
 
