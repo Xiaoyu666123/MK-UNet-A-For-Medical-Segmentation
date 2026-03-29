@@ -4,6 +4,7 @@ from MK_UNet_A import AB_MKUnet
 from Loss import compute_hd95
 from refined_prediction import *
 from Improved_loss import ImprovedBoundaryLoss
+import matplotlib.pyplot as plt
 import random
 import os
 import numpy as np
