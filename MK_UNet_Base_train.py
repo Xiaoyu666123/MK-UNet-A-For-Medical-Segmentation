@@ -2,6 +2,7 @@ from LoadData import *
 from Data_Process import COCOSegmentationDataset
 from MK_UNet_Baseline import MK_UNet_Baseline
 from Loss import compute_hd95
+import matplotlib.pyplot as plt
 import random
 import os
 import numpy as np
