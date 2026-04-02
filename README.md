@@ -123,9 +123,11 @@ python test_model.py
 If you use this code, please cite:
 
 ```bibtex
-@misc{mk-unet,
-  author = {Jiajia Yu},
-  title = {MK-UNet: Multi-Kernel UNet for Brain Tumor Segmentation},
-  year = {2026}
+@article{mk-unet-a-2026,
+  author = {Yu, Jiajia and Wang, Zhengguo and Peng, Yilong and Shi, Zhongjie and Zheng, Dahai and Chen, Shao’ai and Xie, Zhengyuan and Wei, Ronglve},
+  title = {Scale-Adaptive Feature Recalibration for Ultra-Lightweight Brain Tumour Delineation: A Multi-Kernel Attention Framework},
+  journal = {Submitted to The Visual Computer},
+  year = {2026},
+  note = {Manuscript submitted for publication}
 }
 ```
