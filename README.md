@@ -126,7 +126,7 @@ If you use this code, please cite:
 @article{mk-unet-a-2026,
   author = {Yu, Jiajia and Wang, Zhengguo and Peng, Yilong and Shi, Zhongjie and Zheng, Dahai and Chen, Shao’ai and Xie, Zhengyuan and Wei, Ronglve},
   title = {Scale-Adaptive Feature Recalibration for Ultra-Lightweight Brain Tumour Delineation: A Multi-Kernel Attention Framework},
-  journal = {Submitted to The Visual Computer},
+  journal = {Submitted to Scientific Reports},
   year = {2026},
   note = {Manuscript submitted for publication}
 }
